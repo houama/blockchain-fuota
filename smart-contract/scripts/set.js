@@ -15,11 +15,15 @@ async function main() {
 
   // We get the contract to deploy
   const fuotaFactory = await hre.ethers.getContractFactory("Fuota");
-  const fuota = await fuotaFactory.deploy();
+  const fuota = await fuotaFactory.attach(
+    "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"
+  );
 
-  await fuota.deployed();
+  const registered = await fuota.registerDevice(
+    "0x71be63f3384f5fb98995898a86b02fb2426c5788"
+  );
 
-  console.log("Fuota smart contract deployed to:", fuota.address);
+  console.log(`register = ${registered}`);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
