@@ -69,8 +69,8 @@ contract Fuota {
         return devices[_key];
     }
 
-    function verificationFromDevice(string memory _cid, address _publisher, address _deviceIdentifier) public view returns(bool authorized){
-       DeviceStruct storage deviceInfo = devices[_deviceIdentifier];
+    function verificationFromDevice(string memory _cid, address _publisher) public view returns(bool authorized){
+       DeviceStruct storage deviceInfo = devices[msg.sender];
        FirmwareStruct storage firmwareInfo = firmwares[_cid];
 
         if(deviceInfo.isRegistered && firmwareInfo.isRegistered && firmwareInfo.publisher == _publisher){

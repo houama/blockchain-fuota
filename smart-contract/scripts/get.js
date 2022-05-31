@@ -16,11 +16,11 @@ async function main() {
   // We get the contract to deploy
   const fuotaFactory = await hre.ethers.getContractFactory("Fuota");
   const fuota = await fuotaFactory.attach(
-    "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"
+    "0x5FbDB2315678afecb367f032d93F642f64180aa3"
   );
 
   const getSpecific = await fuota.getSpecificRegisteredDevice(
-    "0xfabb0ac9d68b0b445fb7357272ff202c5651694a"
+    "0x71be63f3384f5fb98995898a86b02fb2426c5788"
   );
 
   console.log(`registered device = ${getSpecific}`);
