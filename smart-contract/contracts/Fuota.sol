@@ -5,7 +5,7 @@ contract Fuota {
 
     address private owner;
 
-    // event Register(address from, string cid, string version);
+    event firmwareLog(address indexed from, string cid, string version);
 
     constructor(){
         owner = msg.sender;
@@ -26,13 +26,32 @@ contract Fuota {
         bool isRegistered;
     }
 
-    mapping(string => FirmwareStruct) firmwares;
-    mapping(address => DeviceStruct) devices;
+    address[] private adminAccount;
+    FirmwareStruct[] firmwareList;
+    DeviceStruct[] deviceList;
+
+    mapping(address => bool) admin;
+    mapping(string => bool) firmwares;
+    mapping(address => bool) devices;
 
 
     modifier onlyOwner() {
         require(msg.sender == owner, "Access denied, not owner!");
         _;
+    }
+
+    function addAdmin(address _newAdmin) external onlyOwner{
+        adminAccount.push(_newAdmin);
+
+        admin[_newAdmin] = true;
+    }
+
+    function getAllAdmin() public view returns (address[] memory){
+        return adminAccount;
+    }
+
+    function isAdmin(address _adminAddr) public view returns (bool){
+        return admin[_adminAddr];
     }
 
     function registerFirmware(string memory _cid, string memory _version ) external{
@@ -44,12 +63,19 @@ contract Fuota {
             isRegistered : true
         });
 
-        firmwares[_cid] = firmware;
+        firmwareList.push(firmware);
+
+        firmwares[_cid] = true;
+
+        emit firmwareLog(msg.sender, _cid, _version);
             
     }
 
+    function getAllRegisteredFirmware() public view returns (FirmwareStruct[] memory){
+        return firmwareList;
+    }
 
-    function getSpecificRegisteredFirmware(string memory _key) public view returns (FirmwareStruct memory){
+    function getSpecificRegisteredFirmware(string memory _key) public view returns (bool){
         return firmwares[_key];
     }
 
@@ -61,21 +87,27 @@ contract Fuota {
        isRegistered : true
        });
 
-       devices[_deviceIdentifier] = device;
+       deviceList.push(device);
+
+       devices[_deviceIdentifier] = true;
     
     }
 
-    function getSpecificRegisteredDevice(address _key) public view returns (DeviceStruct memory){
+    function getAllRegisteredDevice() public view returns (DeviceStruct[] memory){
+        return deviceList;
+    }
+
+    function getSpecificRegisteredDevice(address _key) public view returns (bool){
         return devices[_key];
     }
 
-    function verificationFromDevice(string memory _cid, address _publisher) public view returns(bool authorized){
-       DeviceStruct storage deviceInfo = devices[msg.sender];
-       FirmwareStruct storage firmwareInfo = firmwares[_cid];
+    function verificationFromDevice(string memory _cid) public view returns(bool, address, string memory){
+       bool deviceInfo = devices[msg.sender];
+       bool firmwareInfo = firmwares[_cid];
 
-        if(deviceInfo.isRegistered && firmwareInfo.isRegistered && firmwareInfo.publisher == _publisher){
-            return true;
-        }else return false;
+        if(deviceInfo && firmwareInfo){
+            return (true, msg.sender, _cid);
+        }else return (false, msg.sender, "Verification Failed!");
 
     }
 }

@@ -41,7 +41,9 @@ const connectContract = (provider) => {
   const {
     registerDevice,
     getSpecificRegisteredDevice,
+    getAllRegisteredDevice,
     registerFirmware,
+    getAllRegisteredFirmware,
     getSpecificRegisteredFirmware,
     verificationFromDevice,
   } = contract.connect(signer);
