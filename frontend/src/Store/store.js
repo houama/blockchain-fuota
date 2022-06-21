@@ -1,20 +1,17 @@
 import create from "zustand";
 import { persist } from "zustand/middleware";
 
-const useStore = create(
-  persist(
-    () => ({
-      userAddress: null,
-      registerDevice: null,
-      getSpecificRegisteredDevice: null,
-      registerFirmware: null,
-      getSpecificRegisteredFirmware: null,
-      verificationFromDevice: null,
-    }),
-    {
-      name: "web3-interact",
-    }
-  )
-);
+const useStore = create(() => ({
+  userAddress: null,
+  registerDevice: null,
+  getAllRegisteredDevice: null,
+  getSpecificRegisteredDevice: null,
+  registerFirmware: null,
+  getAllRegisteredFirmware: null,
+  getSpecificRegisteredFirmware: null,
+  verificationFromDevice: null,
+  deviceList: [],
+  firmwareList: [],
+}));
 
 export default useStore;

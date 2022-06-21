@@ -7,12 +7,13 @@ export default function Login() {
   let navigate = useNavigate();
 
   const connectAccount = () => {
-    connectBlockchainNetwork(navigate);
+    connectBlockchainNetwork();
+    navigate("/dashboard");
   };
 
-  useEffect(() => {
-    initIpfs();
-  }, []);
+  // useEffect(() => {
+  //   initIpfs();
+  // }, []);
 
   return (
     <>

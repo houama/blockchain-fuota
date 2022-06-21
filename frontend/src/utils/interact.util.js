@@ -2,7 +2,7 @@ import { ethers } from "ethers";
 import useStore from "../Store/store";
 import FuotaContract from "../Artifacts/contracts/Fuota.json";
 
-const connectBlockchainNetwork = async (navigate) => {
+const connectBlockchainNetwork = async () => {
   try {
     if (!window.ethereum) {
       throw "No wallet found!";
@@ -19,8 +19,6 @@ const connectBlockchainNetwork = async (navigate) => {
     useStore.setState({ userAddress: account });
 
     connectContract(provider);
-
-    navigate("/dashboard");
   } catch (err) {
     window.alert(err);
   }
@@ -48,16 +46,20 @@ const connectContract = (provider) => {
     verificationFromDevice,
   } = contract.connect(signer);
 
+  console.log(contract.connect(signer));
+
   // store smart contract function to global state management
   useStore.setState({
-    registerDevice: (addr) => {
-      registerDevice(addr);
-    },
+    registerDevice: (id) => registerDevice(id),
+    getAllRegisteredDevice: () => getAllRegisteredDevice(),
     getSpecificRegisteredDevice: (addr) => {
       getSpecificRegisteredDevice(addr);
     },
     registerFirmware: (cid) => {
       registerFirmware(cid);
+    },
+    getAllRegisteredFirmware: () => {
+      getAllRegisteredFirmware();
     },
     getSpecificRegisteredFirmware: (cid) => {
       getSpecificRegisteredFirmware(cid);
