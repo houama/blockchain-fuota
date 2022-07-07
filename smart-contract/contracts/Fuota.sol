@@ -101,6 +101,18 @@ contract Fuota {
         return devices[_key];
     }
 
+    function requestUpdate() public view returns (address, string memory, string memory){
+        FirmwareStruct storage last = firmwareList[firmwareList.length-1];
+        bool deviceInfo = devices[msg.sender];
+
+        if(deviceInfo){
+            return (last.publisher, last.version, last.cid);
+        }else{
+            return (msg.sender, "Verification Failed!", "Verification Failed!");
+        }
+        
+    }
+
     function verificationFromDevice(string memory _cid) public view returns(bool, address, string memory){
        bool deviceInfo = devices[msg.sender];
        bool firmwareInfo = firmwares[_cid];

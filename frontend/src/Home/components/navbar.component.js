@@ -1,7 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import useStore from "../../Store/store";
 
 const Navbar = () => {
+  let navigate = useNavigate();
+
   const [navbarDropdown, setNavbarDropdown] = useState(false);
   const LoggedAccount = useStore((state) => state.userAddress);
 
@@ -67,23 +70,7 @@ const Navbar = () => {
                       <a
                         href="#"
                         className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                      >
-                        About
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                      >
-                        Settings
-                      </a>
-                    </li>
-
-                    <li>
-                      <a
-                        href="#"
-                        className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                        onClick={() => navigate("/")}
                       >
                         Sign out
                       </a>

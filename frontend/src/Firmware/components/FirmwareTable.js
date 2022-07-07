@@ -9,6 +9,8 @@ const FirmwareTable = ({ data }) => {
     setLoading(false);
   }, 2000);
 
+  console.log(data);
+
   return (
     <div className="relative overflow-x-auto mt-5 mb-10 shadow-lg  sm:rounded-lg">
       <table className="w-full table-auto text-sm text-left bg-white">

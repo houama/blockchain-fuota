@@ -8,7 +8,7 @@ export default function Login() {
 
   const connectAccount = () => {
     connectBlockchainNetwork();
-    navigate("/dashboard");
+    window.location.replace("/device");
   };
 
   // useEffect(() => {

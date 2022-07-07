@@ -9,6 +9,7 @@ export default function Device() {
   const [deviceData, setDeviceData] = useState({ device_id: "" });
 
   const registerDevice = useStore((state) => state.registerDevice);
+  const requestUpdate = useStore((state) => state.requestUpdate);
 
   const getAllRegisteredDevice = useStore(
     (state) => state.getAllRegisteredDevice
@@ -29,10 +30,15 @@ export default function Device() {
   };
 
   const handleRefreshData = () => {
+    console.log("refresh");
     async function getDevice() {
-      const deviceList = await getAllRegisteredDevice();
+      // const deviceList = await getAllRegisteredDevice();
+      // console.log(deviceList);
 
-      useStore.setState({ deviceList: deviceList });
+      // useStore.setState({ deviceList: deviceList });
+
+      const getUpdate = await requestUpdate();
+      console.log(getUpdate);
     }
 
     getDevice();
@@ -47,13 +53,11 @@ export default function Device() {
   }, [user]);
 
   useEffect(() => {
-    async function getDevice() {
-      const deviceList = await getAllRegisteredDevice();
-
-      useStore.setState({ deviceList: deviceList });
-    }
-
-    getDevice();
+    // async function getDevice() {
+    //   const deviceList = await getAllRegisteredDevice();
+    //   useStore.setState({ deviceList: deviceList });
+    // }
+    // getDevice();
   }, [user]);
 
   return (

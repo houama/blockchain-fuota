@@ -1,28 +1,58 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useStore from "../Store/store";
 import Navbar from "../Home/components/navbar.component";
 import Sidebar from "../Home/components/sidebar.component";
 import { useDropzone } from "react-dropzone";
 import FirmwareTable from "./components/FirmwareTable";
+import { addToIpfs } from "../utils/ipfs.util";
+import { connectBlockchainNetwork } from "../utils/interact.util";
 
 export default function Firmware() {
-  const [firmwareData, setFirmwareData] = useState({ cid: "", file: "" });
+  const [firmwareData, setFirmwareData] = useState({
+    cid: "",
+    file: "",
+    version: "",
+  });
 
   const registerFirmware = useStore((state) => state.registerFirmware);
   const getAllRegisteredFirmware = useStore(
     (state) => state.getAllRegisteredFirmware
   );
   const firmwareList = useStore((state) => state.firmwareList);
+  const user = useStore((state) => state.userAddress);
 
   const handleChange = (e) => {
-    setFirmwareData({ ...firmwareData, cid: e.target.value });
+    setFirmwareData({ ...firmwareData, version: e.target.value });
   };
 
   const handleRegisterFirmware = () => {
-    registerFirmware(firmwareData.cid);
+    // registerFirmware(firmwareData.cid);
+
+    async function store() {
+      const cid = await addToIpfs(firmwareData.file);
+
+      console.log(cid);
+      registerFirmware(cid, firmwareData.version);
+    }
+
+    store();
   };
 
-  const handleRefreshData = () => {};
+  const handleRefreshData = () => {
+    console.log("refresh");
+    async function getFirmware() {
+      const firmwareList = await getAllRegisteredFirmware();
+      console.log(firmwareList);
+
+      if (firmwareList) {
+        console.log(firmwareList);
+
+        useStore.setState({ firmwareList: firmwareList });
+      }
+    }
+
+    getFirmware();
+  };
 
   const onDrop = (acceptedFiles) => {
     if (!isDragReject) {
@@ -43,6 +73,28 @@ export default function Firmware() {
   });
 
   console.log(firmwareList);
+
+  useEffect(() => {
+    const connectAccount = () => {
+      connectBlockchainNetwork();
+    };
+
+    connectAccount();
+  }, [user]);
+
+  useEffect(() => {
+    async function getFirmware() {
+      const firmwareList = await getAllRegisteredFirmware();
+
+      if (firmwareList) {
+        console.log(firmwareList);
+
+        useStore.setState({ firmwareList: firmwareList });
+      }
+    }
+
+    getFirmware();
+  }, [user]);
 
   return (
     <>
@@ -153,6 +205,23 @@ export default function Firmware() {
                 Unsupported format
               </div>
             ) : null}
+
+            <label
+              for="device_id"
+              className="block mb-2 text-sm text-left font-bold dark:text-white"
+            >
+              Version
+            </label>
+            <input
+              type="text"
+              name="device_id"
+              id="device_id"
+              className="bg-input-field border-b-2  text-sm  focus:border-blue-400 block w-full p-2.5 mb-4 dark:bg-slate-300  dark:border-blue-400 dark:placeholder-gray-400 dark:focus:border-blue-400 dark:text-black"
+              placeholder="ID"
+              required=""
+              value={firmwareData.version}
+              onChange={handleChange}
+            />
 
             <button
               className={

@@ -8,19 +8,19 @@ const connectBlockchainNetwork = async () => {
       throw "No wallet found!";
     }
     const provider = new ethers.providers.Web3Provider(window.ethereum);
-    console.log(provider);
+    // console.log(provider);
 
     await provider.send("eth_requestAccounts", []);
 
     const account = await provider.getSigner().getAddress();
 
-    console.log(account);
+    // console.log(account);
 
     useStore.setState({ userAddress: account });
 
     connectContract(provider);
   } catch (err) {
-    window.alert(err);
+    console.log(err);
   }
 };
 
@@ -44,6 +44,7 @@ const connectContract = (provider) => {
     getAllRegisteredFirmware,
     getSpecificRegisteredFirmware,
     verificationFromDevice,
+    requestUpdate,
   } = contract.connect(signer);
 
   console.log(contract.connect(signer));
@@ -55,15 +56,14 @@ const connectContract = (provider) => {
     getSpecificRegisteredDevice: (addr) => {
       getSpecificRegisteredDevice(addr);
     },
-    registerFirmware: (cid) => {
-      registerFirmware(cid);
+    registerFirmware: (cid, version) => {
+      registerFirmware(cid, version);
     },
-    getAllRegisteredFirmware: () => {
-      getAllRegisteredFirmware();
-    },
+    getAllRegisteredFirmware: () => getAllRegisteredFirmware(),
     getSpecificRegisteredFirmware: (cid) => {
       getSpecificRegisteredFirmware(cid);
     },
+    requestUpdate: () => requestUpdate(),
     verificationFromDevice: (cid, publisher) => {
       verificationFromDevice(cid, publisher);
     },

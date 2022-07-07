@@ -12,7 +12,7 @@ const Sidebar = (props) => {
     <aside className="w-64" aria-label="Sidebar">
       <div className="overflow-y-auto h-screen py-4 px-3 bg-gray-50 dark:bg-gray-800">
         <ul className="space-y-2">
-          <li>
+          {/* <li>
             <button
               className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
               onClick={() => navigate("/device")}
@@ -33,7 +33,7 @@ const Sidebar = (props) => {
 
               <span className="ml-3">Dashboard</span>
             </button>
-          </li>
+          </li> */}
           <li>
             <button
               className={
@@ -95,7 +95,7 @@ const Sidebar = (props) => {
               <span className="ml-3">Firmware</span>
             </button>
           </li>
-          <li>
+          {/* <li>
             <button
               href="#"
               className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -114,7 +114,7 @@ const Sidebar = (props) => {
               </svg>
               <span className="flex-1 ml-3 whitespace-nowrap">Admin</span>
             </button>
-          </li>
+          </li> */}
         </ul>
 
         {notes && (
