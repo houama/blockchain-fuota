@@ -1,4 +1,4 @@
-### Remote Update Based on Blockchain & IPFS
+# Remote Update Based on Blockchain & IPFS
 
 This is a final project to obtain a bachelor's degree in computer engineering.
 Created by Arsheldy Alvin
@@ -29,7 +29,8 @@ The purpose of this project is to create a secured remote update system for devi
 - Run `geth init` to initiate Ethereum blockchain network
 - Run `geth account new` to create new account in the network and getting Externally Owned Account (EOA) address
 - Create password file that contains password for etherbase account
-- Run configured `geth` to start the private Ethereum blockchain network. This is a example of the configuration:
+- Run configured `geth` to start the private Ethereum blockchain network.
+  This is a example of the configuration:
 
 ```shell
 geth --networkid 4227 --mine --miner.threads 1 --datadir "." --nodiscover --http --http.addr 192.168.123.15 --http.port "8545" --port "30303" --http.corsdomain "*" --http.vhosts "*" --nat extip:192.168.123.15 --http.api eth,web3,personal,net --allow-insecure-unlock --unlock 0 --password ./password.txt --ipcpath "~/.ethereum/geth.ipc"
